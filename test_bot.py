@@ -9,14 +9,23 @@ bot = telebot.TeleBot(token)
 months = ['dec','jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov']
 d_month = None
 d_day = None
-@bot.message_handler(['date'])
+@bot.message_handler(['date','clear'])
 def take_date(message):
-    
-    markup = types.InlineKeyboardMarkup(row_width=2)
-    btn_yes = types.InlineKeyboardButton('Yes', callback_data='yes')
-    btn_no = types.InlineKeyboardButton('No', callback_data='no')
-    markup.add(btn_yes,btn_no)
-    bot.send_message(message.chat.id, f'Would you like to set date? {message.text}', reply_markup=markup)
+    if message.text == '/date':
+        markup = types.InlineKeyboardMarkup(row_width=2)
+        btn_yes = types.InlineKeyboardButton('Yes', callback_data='yes')
+        btn_no = types.InlineKeyboardButton('No', callback_data='no')
+        markup.add(btn_yes,btn_no)
+        bot.send_message(message.chat.id, f'Would you like to set date? {message.text}', reply_markup=markup)
+    elif message.text =='/clear':
+        last_msg_id = message.message_id
+        chat = list(range(1,int(last_msg_id)+1))
+        chat.reverse()
+        for msg in chat:
+            try:
+                bot.delete_message(message.chat.id, msg)
+            except:
+                break
 
 @bot.callback_query_handler(func=lambda message: True)
 def cb(message):

@@ -1,0 +1,9 @@
+import telebot
+token = '6196632156:AAHrs7JnnkIrCxihPE5aPtTz-c9UD_KU1nI'
+
+bot = telebot.TeleBot(token)
+chat_id = '900957345'
+
+p = list(range(9))
+p.reverse()
+print(p)
